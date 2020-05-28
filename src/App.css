@@ -7,6 +7,48 @@
   pointer-events: none;
 }
 
+.container section {
+  display: flex;
+  flex-wrap: wrap;
+  background: blue;
+  height: 5em;
+  color:white;
+}
+
+.black {
+  background: gray;
+  color: white;
+  height: 3em;
+  width: 3em;
+}
+
+.white {
+  background: white;
+  height: 3em;
+  width: 3em;
+}
+
+.board-container {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  background: lightblue;
+}
+
+.board-area {
+  display: flex;
+  flex-wrap: wrap;
+  background: blue;
+}
+
+.board-area button {
+  background: red;
+  padding: 2em
+}
+
+.pieceImage {
+  height: 100%;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

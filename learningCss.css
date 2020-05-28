@@ -1,0 +1,164 @@
+
+body {
+    /* background: lightblue;*/
+    font-family: sans-serif;
+    margin: 0em;
+    padding: 0em;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0em;
+    padding: 0em;
+    box-sizing: border-box;
+}
+
+
+
+.container {
+    text-align: center;
+    /* margin: 1em; */
+    padding: 1em;
+}
+.logo {
+    float: left;
+    width: 130px; 
+}
+
+header {
+    /* align-items: flex-start;
+    justify-content: space-between; */
+    background: rgb(81, 185, 219);
+    padding: 1.2em;
+    width: 100%;
+}
+
+nav {
+    text-align: right;
+}
+nav ul {
+    display: flex;
+    justify-content: space-evenly;
+}
+.menu {
+    width: 35px;
+}
+
+.menu-toggle {
+    display: none;
+}
+a {
+    text-decoration: none;
+}
+/* a:hover {
+    background: lightblue;
+    nav ul {
+        background: lightblue;
+    }
+} */
+
+.menu {
+        display: none;
+    }
+
+@media (max-width: 911px){
+    .menu {
+        display: inline;
+    }
+    header {
+        padding: 0em;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    nav ul {
+        /* display: none; */
+        top: 50px;
+        display: block;
+        padding: 1em;
+        background: rgb(81, 185, 219);
+        text-align: center;
+        line-height: 50px;
+    }
+
+    .board-area {
+        display: block;
+        padding: 1em;
+        justify-content: space-evenly;
+        align-items: flex-end;
+    }
+
+    .chess-board {
+        min-width: 500px;
+        min-height: 500px;
+        width: 50%;
+        height: 50%;
+    }
+}
+
+.logo-footer {
+    width: 130px;
+}
+
+footer {
+    background: lightcyan;
+    width: 100%;
+}
+
+.board-area {
+    /* display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    padding-right: 2em;
+    border-spacing: 0; 
+    border-collapse: collapse; */
+    padding: 1em;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.timer {
+    
+}
+.specifications {
+    display: flex;
+    padding: 1em;
+    justify-content: space-evenly;
+    justify-items: center;
+}
+
+.specifications div {
+    display: flex;
+    justify-content: space-between;
+}
+.chess-board{
+    text-align: center;
+    max-width: 500px;
+    max-height: 500px;
+    min-width: 500px;
+    min-height: 500px;
+    /* background: gray; */
+    border-spacing: 0; 
+    /* border-collapse: collapse; */
+    margin-right: 1.3em;
+}
+.chess-board tr {
+    margin:0px;
+    padding: 0px;
+}
+
+.chess-board th{
+    width: 30px;
+    height: 30px;
+    /* padding: .5em; */
+}
+
+.chess-board .white {
+    background: rgb(230, 140, 24);
+}
+
+.chess-board .black {
+    background: black;
+    color:white;
+}
