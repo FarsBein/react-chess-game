@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import BoardCells from '../components/BoardCells'
 
 
 
 function Board() {
     const [grid,setGrid] = useState([]);
-    
+    const [isDragging, setIsDragging] = useState(false)
+    const dragPiece = useRef()
+
+
     const newGame = () => {
         let tempGrid =[]
         for (let i= 0; i < 8;i++){
@@ -29,12 +32,44 @@ function Board() {
         setGrid(tempGrid)
     }
 
+    // 
+    const keyDeCoder = (key) => {
+        const column = key%10;
+        const row = (key-column)/10;
+        return [row,column]
+    }
+
+    const handleDragStart = (e,currentIndex) => {
+        dragPiece.current = currentIndex
+        //console.log(e.target,currentIndex)
+        setIsDragging(true)
+    }
+
+    const handleDragEnd = (e) => {
+        console.log("Drag end")
+        setIsDragging(false)
+        dragPiece.current = null
+    }
+
+    const handleDragEnter = (e,address) => {
+        console.log(e.target,address)
+    }
+
     return (
         <div className='board-area'>
             <section className='board-container'>
                 {grid.map((row,i) =>
                     row.map((pieceName,j) => (
-                        <BoardCells key={i*10+j} squareKey={i*10+j} piece={pieceName}/>
+                        <BoardCells 
+                            key={i*10+j} 
+                            squareKey={i*10+j} 
+                            piece={pieceName}
+                            keyDeCoder={keyDeCoder}
+                            handleDragEnd={handleDragEnd}
+                            handleDragStart={handleDragStart}
+                            isDragging={isDragging}
+                            handleDragEnter={handleDragEnter}
+                            />
                     ))
                 )}
             </section>

@@ -45,9 +45,13 @@
   padding: 2em
 }
 
-.pieceImage {
+.piece-image {
   height: 100%;
 }
+.dragged-image {
+  height: 150%;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

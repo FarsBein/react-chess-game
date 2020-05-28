@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import '../App.css'
 import blackBushiop from '../chessPieces/Chess_bdt60.png'
 
@@ -15,9 +15,9 @@ import wBishop from '../chessPieces/Chess_blt60.png'
 import bCastle from '../chessPieces/Chess_rdt60.png'
 import wCastle from '../chessPieces/Chess_rlt60.png'
 
-function BoardCells ({squareKey,piece,grid}) {
+function BoardCells ({handleDragEnter,squareKey,piece,grid,handleDragStart,handleDragEnd,keyDeCoder,isDragging}) {
     const [board,setBoard] = useState(grid)
-    
+
     const [pieces,setPieces] = useState({
         'bKing':bKing,
         'wKing':wKing,
@@ -33,12 +33,6 @@ function BoardCells ({squareKey,piece,grid}) {
         'wCastle':wCastle
     });
 
-    const keyDeCoder = (key) => {
-        const column = key%10;
-        const row = (key-column)/10;
-        return [row,column]
-    }
-
     let className = 'black' 
     let evenWhite = keyDeCoder(squareKey)[0] //if the row is even then we follow even -> white else odd -> white
     if (evenWhite%2 === 0){
@@ -51,15 +45,20 @@ function BoardCells ({squareKey,piece,grid}) {
         }
     }
 
-    const handleDragStart = (e) => {
-        console.log(e.target,keyDeCoder(squareKey))
-    }
-
 
 
     return (
         <div className={className}>
-           {piece !== 'none' ? <img draggable onDragStart={(e) => handleDragStart(e)} src={pieces[piece]} className='pieceImage' alt="a piece"/> : <div></div>}
+           {
+            piece !== 'none' ? 
+            <img draggable 
+            onDragStart={(e) => handleDragStart(e,keyDeCoder(squareKey))} 
+            onDragEnd={(e) => handleDragEnd(e,keyDeCoder(squareKey))}
+            onDragEnter={isDragging ? (e)=>handleDragEnter(e,keyDeCoder(squareKey)):null}
+            src={pieces[piece]} 
+            className={'piece-image'} alt="a piece"/> : 
+            <div></div>
+            }
         </div>
     )
 }
