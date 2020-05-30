@@ -14,33 +14,37 @@ import wBishop from '../chessPieces/Chess_blt60.png'
 import bCastle from '../chessPieces/Chess_rdt60.png'
 import wCastle from '../chessPieces/Chess_rlt60.png'
 
+import {isValid} from '../MoveChecker'
+
 function Board() {
     const [grid,setGrid] = useState([]);
     const [isDragging, setIsDragging] = useState(false)
     const dragPiece = useRef()
     const dragNode = useRef()
+    const TurnTracker = useRef(true) // true = white turn & false = black turn
 
     const newGame = () => {
         let tempGrid =[]
         for (let i= 0; i < 8;i++){
             tempGrid.push([])
             for (let j=0; j<8;j++){
-                i === 1 ? tempGrid[i].push(bPawn):
-                i === 6 ? tempGrid[i].push(wPawn):
-                i === 0 && (j === 0 || j === 7) ? tempGrid[i].push(bCastle):
-                i === 7 && (j === 0 || j === 7) ? tempGrid[i].push(wCastle):
-                i === 0 && (j === 2 || j === 5) ? tempGrid[i].push(bBishop):
-                i === 7 && (j === 2 || j === 5) ? tempGrid[i].push(wBishop):
-                i === 0 && (j === 4) ? tempGrid[i].push(bQueen):
-                i === 7 && (j === 4) ? tempGrid[i].push(wQueen):
-                i === 0 && (j === 3) ? tempGrid[i].push(bKing):
-                i === 7 && (j === 3) ? tempGrid[i].push(wKing):
-                i === 0 && (j === 1 || j === 6) ? tempGrid[i].push(bKnight):
-                i === 7 && (j === 1 || j === 6) ? tempGrid[i].push(wKnight):
+                i === 1 ? tempGrid[i].push('bPawn'):
+                i === 6 ? tempGrid[i].push('wPawn'):
+                i === 0 && (j === 0 || j === 7) ? tempGrid[i].push('bCastle'):
+                i === 7 && (j === 0 || j === 7) ? tempGrid[i].push('wCastle'):
+                i === 0 && (j === 2 || j === 5) ? tempGrid[i].push('bBishop'):
+                i === 7 && (j === 2 || j === 5) ? tempGrid[i].push('wBishop'):
+                i === 0 && (j === 4) ? tempGrid[i].push('bQueen'):
+                i === 7 && (j === 4) ? tempGrid[i].push('wQueen'):
+                i === 0 && (j === 3) ? tempGrid[i].push('bKing'):
+                i === 7 && (j === 3) ? tempGrid[i].push('wKing'):
+                i === 0 && (j === 1 || j === 6) ? tempGrid[i].push('bKnight'):
+                i === 7 && (j === 1 || j === 6) ? tempGrid[i].push('wKnight'):
                 tempGrid[i].push('none')
             }
         }
         setGrid(tempGrid)
+        TurnTracker.current = true
     }
 
     const handleDragStart = (e,currentIndex) => {
@@ -55,10 +59,12 @@ function Board() {
         const newPosition = dragNode.current
         console.log("Drag end",oldPosition,newPosition)
         setIsDragging(false)
-        if (oldPosition[0] !== newPosition[0] || oldPosition[1] !== newPosition[1]) { // for some reason (oldPosition !== newPosition) doesn't work
+        if ((oldPosition[0] !== newPosition[0] || 
+            oldPosition[1] !== newPosition[1])) { // for some reason (oldPosition !== newPosition) doesn't work
             tempGrid[newPosition[0]][newPosition[1]] = tempGrid[oldPosition[0]][oldPosition[1]]
             tempGrid[oldPosition[0]][oldPosition[1]] = "none"
-            console.log('moved')            
+            TurnTracker.current = !TurnTracker.current      
+            console.log('moved',TurnTracker.current)       
         }
         dragPiece.current = null
         dragNode.current = null
@@ -83,7 +89,20 @@ function Board() {
         return className
     }
 
-    
+    const pieceImage = (piece) => {
+        if (piece === 'bPawn') return bPawn
+        if (piece === 'wPawn') return wPawn
+        if (piece === 'bCastle') return bCastle
+        if (piece === 'wCastle') return wCastle
+        if (piece === 'bBishop') return bBishop
+        if (piece === 'wBishop') return wBishop
+        if (piece === 'bQueen') return bQueen
+        if (piece === 'wQueen') return wQueen
+        if (piece === 'bKing') return bKing
+        if (piece === 'wKing') return wKing
+        if (piece === 'bKnight') return bKnight
+        if (piece === 'wKnight') return wKnight
+    } 
 
     return (
         <div className='board-area'>
@@ -99,8 +118,7 @@ function Board() {
                                 <img draggable 
                                 onDragStart={(e) => handleDragStart(e,[i,j])} 
                                 onDragEnd={(e) => handleDragEnd(e,[i,j])}
-                                
-                                src={pieceName} 
+                                src={pieceImage(pieceName)} 
                                 className={'piece-image'} alt="a piece"/> : 
                                 <div></div>
                             }
