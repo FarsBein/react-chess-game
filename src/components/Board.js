@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react'
-import BoardCells from '../components/BoardCells'
 
 import bKing from '../chessPieces/Chess_kdt60.png'
 import wKing from '../chessPieces/Chess_klt60.png'
@@ -21,7 +20,7 @@ function Board() {
     const [isDragging, setIsDragging] = useState(false)
     const dragPiece = useRef()
     const dragNode = useRef()
-    const TurnTracker = useRef(true) // true = white turn & false = black turn
+    const oldBoard = useRef(grid)
 
     const newGame = () => {
         let tempGrid =[]
@@ -44,7 +43,6 @@ function Board() {
             }
         }
         setGrid(tempGrid)
-        TurnTracker.current = true
     }
 
     const handleDragStart = (e,currentIndex) => {
@@ -59,15 +57,15 @@ function Board() {
         const newPosition = dragNode.current
         console.log("Drag end",oldPosition,newPosition)
         setIsDragging(false)
-        if ((oldPosition[0] !== newPosition[0] || 
-            oldPosition[1] !== newPosition[1])) { // for some reason (oldPosition !== newPosition) doesn't work
+        if ((oldPosition[0] !== newPosition[0] || oldPosition[1] !== newPosition[1])) { // for some reason (oldPosition !== newPosition) doesn't work
+            oldBoard.current = JSON.parse(JSON.stringify(grid))
             tempGrid[newPosition[0]][newPosition[1]] = tempGrid[oldPosition[0]][oldPosition[1]]
             tempGrid[oldPosition[0]][oldPosition[1]] = "none"
-            TurnTracker.current = !TurnTracker.current      
-            console.log('moved',TurnTracker.current)       
+            console.log('moved')   
+             
         }
-        dragPiece.current = null
-        dragNode.current = null
+        // dragPiece.current = null
+        // dragNode.current = null
     }
 
     const handleDragEnter = (e,address) => {
@@ -104,32 +102,42 @@ function Board() {
         if (piece === 'wKnight') return wKnight
     } 
 
+    const goBack = () => {
+        setGrid(oldBoard.current)
+        console.log('moved back')
+    }
+
     return (
         <div className='board-area'>
-            <section className='board-container'>
-                {grid.map((row,i) =>
-                    row.map((pieceName,j) => (
-                        <div 
-                            className={boxColor([i,j])} 
-                            onDragEnter={isDragging ? (e)=>handleDragEnter(e,[i,j]):
-                            null}>
-                            {
-                                pieceName !== 'none' ? 
-                                <img draggable 
-                                onDragStart={(e) => handleDragStart(e,[i,j])} 
-                                onDragEnd={(e) => handleDragEnd(e,[i,j])}
-                                src={pieceImage(pieceName)} 
-                                className={'piece-image'} alt="a piece"/> : 
-                                <div></div>
-                            }
-                        </div>
-                    ))
-                )}
-            </section>
-            <div >
-                <button onClick={newGame}>
-                    New Game
-                </button>
+            <div>
+                <section className='board-container'>
+                    {grid.map((row,i) =>
+                        row.map((pieceName,j) => (
+                            <div 
+                                className={boxColor([i,j])} 
+                                onDragEnter={isDragging ? (e)=>handleDragEnter(e,[i,j]):
+                                null}>
+                                {
+                                    pieceName !== 'none' ? 
+                                    <img draggable 
+                                    onDragStart={(e) => handleDragStart(e,[i,j])} 
+                                    onDragEnd={(e) => handleDragEnd(e,[i,j])}
+                                    src={pieceImage(pieceName)} 
+                                    className={'piece-image'} alt="a piece"/> : 
+                                    <div></div>
+                                }
+                            </div>
+                        ))
+                    )}
+                </section>
+                <div className='buttons'>
+                    <button onClick={newGame}>
+                        New Game
+                    </button>
+                    <button onClick={goBack}>
+                        Back
+                    </button>
+                </div>
             </div>
         </div>
     )

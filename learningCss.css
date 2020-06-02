@@ -76,7 +76,7 @@ a {
         top: 50px;
         display: block;
         padding: 1em;
-        background: rgb(81, 185, 219);
+        background: rgb(174, 180, 126);
         text-align: center;
         line-height: 50px;
     }
@@ -101,7 +101,7 @@ a {
 }
 
 footer {
-    background: lightcyan;
+    background: rgb(59, 231, 231);
     width: 100%;
 }
 

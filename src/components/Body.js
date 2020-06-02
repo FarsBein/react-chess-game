@@ -1,5 +1,5 @@
 import React from 'react'
-import '../learningCss.css';
+import '../App.css';
 import Board from './Board';
 
 function Body () {

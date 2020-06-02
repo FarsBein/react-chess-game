@@ -1,9 +1,6 @@
 
-export const isMovePossible = (TurnTracker,x1,x2,y1,y2,pieceName,pieceColor) => {
+export const isMovePossible = (x1,x2,y1,y2,pieceName,pieceColor) => {
 
-    if ((pieceColor !== 'w' && TurnTracker) || (pieceColor !== 'b' && !TurnTracker)){ // check if the right piece pieceColor turn is moved
-        return false;
-    }
 
     if (pieceName === 'Pawn' && pieceColor === 'w') {
         if (y2 + 1 === y1){ //2//
@@ -63,8 +60,6 @@ export const isMovePossible = (TurnTracker,x1,x2,y1,y2,pieceName,pieceColor) => 
 }
 
 export const isMoveBlocked = (x1,x2,y1,y2,pieceName,pieceColor,Board) => {
-    let tempX=0
-    let tempY=0
 
     if (Board[x2][y2][0] === pieceColor){ // same color pieces
         return false
@@ -133,7 +128,7 @@ export const isMoveBlocked = (x1,x2,y1,y2,pieceName,pieceColor,Board) => {
 
 }
 
-export const isValid = (oldPosition, newPosition, TurnTracker, Board) => {
+export const isValid = (oldPosition, newPosition, Board) => {
     const x1 = oldPosition[0];
     const y1 = oldPosition[1];
     const x2 = newPosition[0];
@@ -143,7 +138,7 @@ export const isValid = (oldPosition, newPosition, TurnTracker, Board) => {
     const pieceColor = Board[x1][y1][0]
 
     return (
-            isMovePossible(TurnTracker,x1,x2,y1,y2,pieceName,pieceColor) &&
+            isMovePossible(x1,x2,y1,y2,pieceName,pieceColor) &&
             isMoveBlocked(x1,x2,y1,y2,pieceName,pieceColor,Board)
         )
 }
