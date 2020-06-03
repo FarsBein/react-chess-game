@@ -18,6 +18,8 @@ import {isValid} from '../MoveChecker'
 function Board() {
     const [grid,setGrid] = useState([]);
     const [isDragging, setIsDragging] = useState(false)
+    const [isSelecting, setIsSelecting] = useState(false)
+    const [inGame,setInGame] = useState(false)
     const dragPiece = useRef()
     const dragNode = useRef()
     const oldBoard = useRef(grid)
@@ -43,6 +45,7 @@ function Board() {
             }
         }
         setGrid(tempGrid)
+        setInGame(true)
     }
 
     const handleDragStart = (e,currentIndex) => {
@@ -57,12 +60,12 @@ function Board() {
         const newPosition = dragNode.current
         console.log("Drag end",oldPosition,newPosition)
         setIsDragging(false)
+        setIsSelecting(false)
         if ((oldPosition[0] !== newPosition[0] || oldPosition[1] !== newPosition[1])) { // for some reason (oldPosition !== newPosition) doesn't work
             oldBoard.current = JSON.parse(JSON.stringify(grid))
             tempGrid[newPosition[0]][newPosition[1]] = tempGrid[oldPosition[0]][oldPosition[1]]
             tempGrid[oldPosition[0]][oldPosition[1]] = "none"
             console.log('moved')   
-             
         }
         // dragPiece.current = null
         // dragNode.current = null
@@ -107,14 +110,29 @@ function Board() {
         console.log('moved back')
     }
 
+    const handleTouchStart = (e,currentIndex) => {
+        const x = currentIndex[0]
+        const y = currentIndex[1]
+        if (!isSelecting && grid[x][y] !== 'none'){
+            console.log('touched',currentIndex)
+            dragPiece.current = currentIndex
+            setIsSelecting(true)            
+        } 
+        else if (isSelecting){
+            dragNode.current = currentIndex
+            handleDragEnd()
+        }
+    }
     return (
         <div className='board-area'>
             <div>
-                <section className='board-container'>
+                <section className={inGame ? 'board-container-new-game':'board-container'}>
                     {grid.map((row,i) =>
                         row.map((pieceName,j) => (
                             <div 
+                                key={i*10+j}
                                 className={boxColor([i,j])} 
+                                onTouchStart={(e) => handleTouchStart(e,[i,j])}
                                 onDragEnter={isDragging ? (e)=>handleDragEnter(e,[i,j]):
                                 null}>
                                 {
