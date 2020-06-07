@@ -18,12 +18,6 @@ body {
   width: 3em;
 }
 
-.board-container {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: auto;
-  text-align: center;
-}
 
 .board-container-new-game {
   border: 3px solid #000;
@@ -53,18 +47,20 @@ body {
 }
 
 
-@media screen and (max-width:445px){
-  .board-container {
+@media screen and (max-width:400px){
+  .board-container-new-game {
     display: grid;
-    grid-template-columns: repeat(8, 25px);
-    grid-template-rows: repeat(8, 25px);   
+    grid-template-columns: repeat(8, 38px);
+    grid-template-rows: repeat(8, 38px);   
     border: 3px solid #000;
     box-shadow: 0 5px 8px #777; 
-    width: 200px;
-    margin-left: 1.8em;
-
   }
   
+  .board-container-new-game div{
+    width: auto;
+    height: auto;
+  }
+
   .board-container div {
     height: 100%;
     width: auto;
@@ -84,8 +80,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 67.78px - 148.84px);
-    padding-top: 1em;
-    padding-right: 0.5em;
+    padding: 2em;
   }
   
 

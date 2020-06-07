@@ -126,7 +126,7 @@ function Board() {
     return (
         <div className='board-area'>
             <div>
-                <section className={inGame ? 'board-container-new-game':'board-container'}>
+                <section className={'board-container-new-game'}>
                     {grid.map((row,i) =>
                         row.map((pieceName,j) => (
                             <div 
