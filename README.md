@@ -8,7 +8,7 @@ Type "npm start" on the file directry on your terminal, The game will open on ht
 
 <img src="preview images/chess_2.JPG" height="300" />
 
-On mobile to move touch the piece first than the desired location:
+To move on mobile, touch the piece first then the desired location:
 
 <img src="preview images/chess_3.JPG" height="300"/>
 
