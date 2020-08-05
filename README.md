@@ -1,5 +1,5 @@
 # chess in react 
-♟️ A simple chess game built to test drag and drop for pc, and touch functionallities for mobile.
+♟️ A simple chess game built to test drag and drop for pc, and touch functionalities for mobile.
 
 ## To run react-chess
 Type "npm start" on the file directry on your terminal, The game will open on http://localhost:3000/:
